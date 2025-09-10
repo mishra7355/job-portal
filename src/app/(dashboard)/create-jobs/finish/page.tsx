@@ -36,7 +36,7 @@ export default function JobPostedSuccess() {
 
       {/* Footer Note */}
       <p className="text-gray-500 text-sm mt-8 text-center">
-        We'll notify you when candidates start applying to your position.
+        We&apos;ll notify you when candidates start applying to your position.
       </p>
     </div>
   );
