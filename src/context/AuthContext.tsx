@@ -5,7 +5,7 @@ import { loginUser } from "@/services/auth"; // your API call
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
-  user: any;
+  user: unknown;
   accessToken: string | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
@@ -17,7 +17,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<unknown>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 

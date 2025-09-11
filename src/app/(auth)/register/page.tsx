@@ -60,12 +60,22 @@ export default function SignUpPage() {
       const response = await registerUser(payload);
       if (response.success) toast.success("✅ Account created successfully!");
     } catch (error: unknown) {
-      if (error && typeof error === "object" && "response" in error) {
-        const err = error as any; // only here we cast to any for response
+      // Check if it's an Axios error-like object
+      if (
+        error &&
+        typeof error === "object" &&
+        "response" in error &&
+        (error as { response?: { data?: { email?: string[] } } })
+      ) {
+        const err = error as { response?: { data?: { email?: string[] } } };
         toast.error(err.response?.data?.email?.[0] || "Login failed!");
-      } else if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
+      }
+      // General JS error
+      else if (error instanceof Error) {
+        toast.error(error.message || "Login failed!");
+      }
+      // Fallback
+      else {
         toast.error("Login failed!");
       }
     } finally {
