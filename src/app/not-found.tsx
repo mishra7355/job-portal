@@ -8,7 +8,7 @@ export default function NotFound() {
         href="/dashboard"
         className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
       >
-        Go back home
+        Go back Dashboard
       </Link>
     </div>
   );

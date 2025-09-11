@@ -1,9 +1,8 @@
 "use client";
 
-import type { Metadata } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { use, useState } from "react";
+import { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi"; // Hamburger icons
 import "../globals.css";
 import { useAuth } from "@/hooks/useAuth";

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { registerUser } from "@/services/auth";
 import { toast } from "react-toastify";
+import Link from "next/link";
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -58,8 +59,15 @@ export default function SignUpPage() {
 
       const response = await registerUser(payload);
       if (response.success) toast.success("✅ Account created successfully!");
-    } catch (error: any) {
-      toast.error(error.response.data.email[0]);
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "response" in error) {
+        const err = error as any; // only here we cast to any for response
+        toast.error(err.response?.data?.email?.[0] || "Login failed!");
+      } else if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Login failed!");
+      }
     } finally {
       setLoading(false);
     }
@@ -217,9 +225,9 @@ export default function SignUpPage() {
 
             <p className="text-center text-sm text-gray-500 mt-4">
               Already have an account?{" "}
-              <a href="/" className="text-purple-600 font-semibold">
+              <Link href="/" className="text-purple-600 font-semibold">
                 Sign in
-              </a>
+              </Link>
             </p>
           </form>
         </div>
