@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 
 export default function JobPostedSuccess() {
   return (
@@ -23,17 +24,27 @@ export default function JobPostedSuccess() {
 
       {/* Buttons */}
       <div className="flex flex-wrap justify-center gap-4 mt-8">
-        <button className="px-5 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition">
+        <Link
+          href="/job-listing"
+          className="px-5 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition"
+        >
           View Post Job
-        </button>
-        <button className="px-5 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition">
-          Post Another Job
-        </button>
-        <button className="px-5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
-          Go To Dashboard
-        </button>
-      </div>
+        </Link>
 
+        <Link
+          href="/create-jobs/step1"
+          className="px-5 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-50 transition"
+        >
+          Post Another Job
+        </Link>
+
+        <Link
+          href="/dashboard"
+          className="px-5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+        >
+          Go To Dashboard
+        </Link>
+      </div>
       {/* Footer Note */}
       <p className="text-gray-500 text-sm mt-8 text-center">
         We&apos;ll notify you when candidates start applying to your position.

@@ -10,9 +10,60 @@ import {
   Building,
   Globe,
 } from "lucide-react";
+import { registerUser } from "@/services/auth";
+import { toast } from "react-toastify";
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    gender: "",
+    jobTitle: "",
+    company: "",
+    companyWebsite: "",
+    hiringDescription: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const [first_name, ...rest] = formData.fullName.split(" ");
+      const last_name = rest.join(" ");
+
+      const payload = {
+        email: formData.email,
+        password: formData.password,
+        first_name,
+        last_name,
+        gender: formData.gender,
+        job_title: formData.jobTitle,
+        company: formData.company,
+        company_website: formData.companyWebsite,
+        hiring_description: formData.hiringDescription,
+      };
+
+      const response = await registerUser(payload);
+      if (response.success) toast.success("✅ Account created successfully!");
+    } catch (error: any) {
+      toast.error(error.response.data.email[0]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex min-h-screen">
@@ -36,14 +87,18 @@ export default function SignUpPage() {
             Join HireCoop and start your recruitment journey
           </p>
 
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {/* Full Name */}
             <div className="flex items-center border rounded-lg px-3">
               <User className="w-5 h-5 text-gray-400" />
               <input
                 type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
                 placeholder="Enter your full name"
                 className="flex-1 px-2 py-3 outline-none bg-transparent"
+                required
               />
             </div>
 
@@ -52,8 +107,12 @@ export default function SignUpPage() {
               <Mail className="w-5 h-5 text-gray-400" />
               <input
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="Enter your email"
                 className="flex-1 px-2 py-3 outline-none bg-transparent"
+                required
               />
             </div>
 
@@ -62,8 +121,12 @@ export default function SignUpPage() {
               <Lock className="w-5 h-5 text-gray-400" />
               <input
                 type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="Enter your password"
                 className="flex-1 px-2 py-3 outline-none bg-transparent"
+                required
               />
               <button
                 type="button"
@@ -79,11 +142,17 @@ export default function SignUpPage() {
             </div>
 
             {/* Gender */}
-            <select className="w-full border rounded-lg px-3 py-3 bg-white text-gray-700">
-              <option>Select your gender</option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              className="w-full border rounded-lg px-3 py-3 bg-white text-gray-700"
+              required
+            >
+              <option value="">Select your gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
             </select>
 
             {/* Job Title */}
@@ -91,8 +160,12 @@ export default function SignUpPage() {
               <Briefcase className="w-5 h-5 text-gray-400" />
               <input
                 type="text"
+                name="jobTitle"
+                value={formData.jobTitle}
+                onChange={handleChange}
                 placeholder="Enter your job title"
                 className="flex-1 px-2 py-3 outline-none bg-transparent"
+                required
               />
             </div>
 
@@ -101,8 +174,12 @@ export default function SignUpPage() {
               <Building className="w-5 h-5 text-gray-400" />
               <input
                 type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
                 placeholder="Enter your company name"
                 className="flex-1 px-2 py-3 outline-none bg-transparent"
+                required
               />
             </div>
 
@@ -111,6 +188,9 @@ export default function SignUpPage() {
               <Globe className="w-5 h-5 text-gray-400" />
               <input
                 type="url"
+                name="companyWebsite"
+                value={formData.companyWebsite}
+                onChange={handleChange}
                 placeholder="Enter your company website"
                 className="flex-1 px-2 py-3 outline-none bg-transparent"
               />
@@ -118,6 +198,9 @@ export default function SignUpPage() {
 
             {/* Hiring Description */}
             <textarea
+              name="hiringDescription"
+              value={formData.hiringDescription}
+              onChange={handleChange}
               placeholder="Describe what kind of talent you are looking..."
               className="w-full border rounded-lg px-3 py-3 outline-none bg-transparent"
               rows={3}
@@ -126,14 +209,15 @@ export default function SignUpPage() {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-lg font-semibold"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 rounded-lg font-semibold disabled:opacity-50"
             >
-              Create Account
+              {loading ? "Creating Account..." : "Create Account"}
             </button>
 
             <p className="text-center text-sm text-gray-500 mt-4">
               Already have an account?{" "}
-              <a href="/login" className="text-purple-600 font-semibold">
+              <a href="/" className="text-purple-600 font-semibold">
                 Sign in
               </a>
             </p>
