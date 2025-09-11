@@ -31,11 +31,12 @@ export default function LoginPage() {
       toast.success("Login successful!");
       router.push("/dashboard");
     } catch (error: unknown) {
-      console.error(error);
-
-      // If using fetch:
-      if (error instanceof Error) {
-        toast.error(error.message || "Login failed!");
+      // Check if error is an object
+      if (error && typeof error === "object" && "response" in error) {
+        const err = error as { response?: { data?: { details?: string } } };
+        toast.error(err.response?.data?.details || "Login failed!");
+      } else if (error instanceof Error) {
+        toast.error(error.message); // fallback to standard Error message
       } else {
         toast.error("Login failed!");
       }
