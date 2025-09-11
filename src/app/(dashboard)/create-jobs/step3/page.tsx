@@ -19,7 +19,6 @@ export default function Step3() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Application Deadline */}
           <div>
             <label className="block text-sm font-medium mb-2">
               Application Deadline
@@ -32,7 +31,6 @@ export default function Step3() {
             />
           </div>
 
-          {/* Hiring Manager ID */}
           <div>
             <label className="block text-sm font-medium mb-2">
               Hiring Manager ID
@@ -47,7 +45,6 @@ export default function Step3() {
           </div>
         </div>
 
-        {/* Experience & Technical Rounds */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
             <label className="block text-sm font-medium mb-2">
@@ -82,7 +79,6 @@ export default function Step3() {
           </div>
         </div>
 
-        {/* Ready to Publish */}
         <div className="mt-6 mb-6">
           <label className="block text-sm font-medium mb-3">
             Ready to Publish?
@@ -122,11 +118,8 @@ export default function Step3() {
             </label>
           </div>
         </div>
-
-        {/* Buttons */}
       </div>
       <div className="flex justify-between mt-6" style={{ marginTop: "80px" }}>
-        {/* Left side: Previous button */}
         <button
           onClick={() => router.push("/create-jobs/step1")}
           className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-100"
@@ -134,7 +127,6 @@ export default function Step3() {
           ← Previous
         </button>
 
-        {/* Right side: Save as Draft + Continue */}
         <div className="flex gap-2">
           <button className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100">
             Save as Draft

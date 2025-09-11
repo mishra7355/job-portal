@@ -15,7 +15,7 @@ export default function LoginPage() {
   });
 
   const router = useRouter();
-  const { login } = useAuth(); // ✅ use AuthContext
+  const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,16 +27,15 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      await login(formData.email, formData.password); // ✅ AuthContext login
+      await login(formData.email, formData.password);
       toast.success("Login successful!");
       router.push("/dashboard");
     } catch (error: unknown) {
-      // Check if error is an object
       if (error && typeof error === "object" && "response" in error) {
         const err = error as { response?: { data?: { details?: string } } };
         toast.error(err.response?.data?.details || "Login failed!");
       } else if (error instanceof Error) {
-        toast.error(error.message); // fallback to standard Error message
+        toast.error(error.message);
       } else {
         toast.error("Login failed!");
       }
@@ -47,7 +46,6 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen">
-      {/* Left Section */}
       <div className="hidden lg:flex flex-1 flex-col items-center justify-center bg-gradient-to-br from-purple-600 to-pink-500 text-white p-12">
         <h1 className="text-4xl font-bold mb-4">Welcome Back</h1>
         <p className="text-center max-w-md">
@@ -55,7 +53,6 @@ export default function LoginPage() {
         </p>
       </div>
 
-      {/* Right Section */}
       <div className="flex flex-1 items-center justify-center bg-gray-50">
         <div className="w-full max-w-md p-8 rounded-lg">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">Sign In</h2>
@@ -64,7 +61,6 @@ export default function LoginPage() {
           </p>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
-            {/* Email */}
             <div className="flex items-center border rounded-lg px-3">
               <Mail className="w-5 h-5 text-gray-400" />
               <input
@@ -78,7 +74,6 @@ export default function LoginPage() {
               />
             </div>
 
-            {/* Password */}
             <div className="flex items-center border rounded-lg px-3">
               <Lock className="w-5 h-5 text-gray-400" />
               <input
@@ -103,7 +98,6 @@ export default function LoginPage() {
               </button>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}

@@ -50,7 +50,6 @@ export default function Step2() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Required Skills */}
           <div>
             <label className="block text-sm font-medium mb-2">
               Required Skills
@@ -79,7 +78,6 @@ export default function Step2() {
             </div>
           </div>
 
-          {/* Preferred Skills */}
           <div>
             <label className="block text-sm font-medium mb-2">
               Preferred Skills
@@ -109,7 +107,6 @@ export default function Step2() {
           </div>
         </div>
 
-        {/* Experience & Technical Rounds */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
             <label className="block text-sm font-medium mb-2">
@@ -136,7 +133,6 @@ export default function Step2() {
           </div>
         </div>
 
-        {/* Job Description */}
         <div className="mt-6">
           <label className="block text-sm font-medium mb-2">
             Job Description
@@ -148,7 +144,6 @@ export default function Step2() {
           ></textarea>
         </div>
 
-        {/* Interview Process */}
         <div className="mt-6">
           <label className="block text-sm font-medium mb-2">
             Interview Process
@@ -159,11 +154,8 @@ export default function Step2() {
             rows={3}
           ></textarea>
         </div>
-
-        {/* Buttons */}
       </div>
       <div className="flex justify-between mt-6">
-        {/* Left side: Previous button */}
         <button
           onClick={() => router.push("/create-jobs/step1")}
           className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-100"
@@ -171,7 +163,6 @@ export default function Step2() {
           ← Previous
         </button>
 
-        {/* Right side: Save as Draft + Continue */}
         <div className="flex gap-2">
           <button className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100">
             Save as Draft

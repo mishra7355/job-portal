@@ -1,4 +1,3 @@
-// src/services/auth.ts
 import api from "@/lib/api";
 import {
   RegisterPayload,

@@ -60,7 +60,6 @@ export default function SignUpPage() {
       const response = await registerUser(payload);
       if (response.success) toast.success("✅ Account created successfully!");
     } catch (error: unknown) {
-      // Check if it's an Axios error-like object
       if (
         error &&
         typeof error === "object" &&
@@ -69,13 +68,9 @@ export default function SignUpPage() {
       ) {
         const err = error as { response?: { data?: { email?: string[] } } };
         toast.error(err.response?.data?.email?.[0] || "Login failed!");
-      }
-      // General JS error
-      else if (error instanceof Error) {
+      } else if (error instanceof Error) {
         toast.error(error.message || "Login failed!");
-      }
-      // Fallback
-      else {
+      } else {
         toast.error("Login failed!");
       }
     } finally {
@@ -85,7 +80,6 @@ export default function SignUpPage() {
 
   return (
     <div className="flex min-h-screen">
-      {/* Left Section */}
       <div className="hidden lg:flex flex-1 flex-col items-center justify-center bg-gradient-to-br from-purple-600 to-pink-500 text-white p-12">
         <h1 className="text-4xl font-bold mb-4">Welcome to HireCoop</h1>
         <p className="text-center max-w-md">
@@ -95,7 +89,6 @@ export default function SignUpPage() {
         </p>
       </div>
 
-      {/* Right Section */}
       <div className="flex flex-1 items-center justify-center bg-gray-50">
         <div className="w-full max-w-md p-8 rounded-lg">
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
@@ -106,7 +99,6 @@ export default function SignUpPage() {
           </p>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
-            {/* Full Name */}
             <div className="flex items-center border rounded-lg px-3">
               <User className="w-5 h-5 text-gray-400" />
               <input
@@ -120,7 +112,6 @@ export default function SignUpPage() {
               />
             </div>
 
-            {/* Email */}
             <div className="flex items-center border rounded-lg px-3">
               <Mail className="w-5 h-5 text-gray-400" />
               <input
@@ -134,7 +125,6 @@ export default function SignUpPage() {
               />
             </div>
 
-            {/* Password */}
             <div className="flex items-center border rounded-lg px-3">
               <Lock className="w-5 h-5 text-gray-400" />
               <input
@@ -159,7 +149,6 @@ export default function SignUpPage() {
               </button>
             </div>
 
-            {/* Gender */}
             <select
               name="gender"
               value={formData.gender}
@@ -173,7 +162,6 @@ export default function SignUpPage() {
               <option value="other">Other</option>
             </select>
 
-            {/* Job Title */}
             <div className="flex items-center border rounded-lg px-3">
               <Briefcase className="w-5 h-5 text-gray-400" />
               <input
@@ -187,7 +175,6 @@ export default function SignUpPage() {
               />
             </div>
 
-            {/* Company */}
             <div className="flex items-center border rounded-lg px-3">
               <Building className="w-5 h-5 text-gray-400" />
               <input
@@ -201,7 +188,6 @@ export default function SignUpPage() {
               />
             </div>
 
-            {/* Company Website */}
             <div className="flex items-center border rounded-lg px-3">
               <Globe className="w-5 h-5 text-gray-400" />
               <input
@@ -214,7 +200,6 @@ export default function SignUpPage() {
               />
             </div>
 
-            {/* Hiring Description */}
             <textarea
               name="hiringDescription"
               value={formData.hiringDescription}
@@ -224,7 +209,6 @@ export default function SignUpPage() {
               rows={3}
             ></textarea>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={loading}

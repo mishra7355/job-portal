@@ -80,7 +80,6 @@ const DashboardPage = () => {
         Dashboard
       </h1>
 
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {stats.map((stat, index) => (
           <div
@@ -93,12 +92,10 @@ const DashboardPage = () => {
         ))}
       </div>
 
-      {/* Interactive Chart */}
       <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg mb-8 w-full h-72 sm:h-96">
         <Line data={chartData} options={chartOptions} />
       </div>
 
-      {/* Recent Jobs Table */}
       <div className="bg-white p-4 sm:p-6 rounded-xl shadow-lg overflow-x-auto">
         <h2 className="text-xl font-bold mb-4">Recent Job Postings</h2>
         <table className="min-w-full divide-y divide-gray-200">

@@ -1,4 +1,3 @@
-// src/types/auth.ts
 export interface RegisterPayload {
   email: string;
   password: string;

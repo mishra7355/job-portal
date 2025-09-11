@@ -1,4 +1,3 @@
-// app/create-job/page.tsx
 "use client";
 import { useState } from "react";
 
@@ -7,7 +6,6 @@ export default function CreateJobPage() {
 
   return (
     <div className="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
-      {/* Stepper */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex-1 text-purple-600 font-medium">
           STEP 1{" "}
@@ -21,7 +19,6 @@ export default function CreateJobPage() {
         </div>
       </div>
 
-      {/* Job Information */}
       <h2 className="text-lg font-semibold text-purple-700 mb-4">
         Job Information
       </h2>
@@ -70,7 +67,6 @@ export default function CreateJobPage() {
         </div>
       </div>
 
-      {/* Compensation */}
       <div className="mt-6">
         <h3 className="text-md font-semibold text-purple-700 mb-2">
           Compensation
@@ -108,7 +104,6 @@ export default function CreateJobPage() {
         )}
       </div>
 
-      {/* Footer */}
       <div className="flex justify-between mt-6">
         <button className="px-4 py-2 border border-purple-600 text-purple-600 rounded">
           Previous

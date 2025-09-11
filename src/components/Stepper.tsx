@@ -29,7 +29,6 @@ export default function Stepper() {
               className="flex flex-col items-center flex-1 cursor-pointer group relative"
               onClick={() => router.push(step.path)}
             >
-              {/* Circle */}
               <div
                 className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300 z-10
                 ${
@@ -43,7 +42,6 @@ export default function Stepper() {
                 {isCompleted ? <Check size={18} /> : step.id}
               </div>
 
-              {/* Label */}
               <p
                 className={`mt-3 text-sm font-medium ${
                   isCompleted
@@ -56,7 +54,6 @@ export default function Stepper() {
                 {step.name}
               </p>
 
-              {/* Line: only render if NOT the last step */}
               {index < steps.length - 1 && (
                 <div
                   className={`absolute top-5 left-1/2 w-full h-[2px] -z-0 ${

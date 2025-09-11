@@ -11,7 +11,6 @@ export default function Step1Form() {
     <div>
       <Stepper />
 
-      {/* Job Information */}
       <div className=" mx-auto bg-white shadow rounded-lg p-6 mb-4">
         <h2 className="text-lg font-semibold text-purple-700 mb-4">
           Job Information
@@ -78,7 +77,6 @@ export default function Step1Form() {
         </div>
       </div>
 
-      {/* Compensation */}
       <div className=" mx-auto bg-white shadow rounded-lg p-6 mt-2">
         <h2 className="text-lg font-semibold text-purple-700 mb-4">
           Compensation
@@ -131,7 +129,6 @@ export default function Step1Form() {
         )}
       </div>
 
-      {/* Footer Buttons */}
       <div className=" mx-auto flex justify-end gap-2 mt-6">
         <button className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100">
           Save as Draft

@@ -40,7 +40,6 @@ const JobListingPage = () => {
 
   const handleApply = (jobId: number) => {
     alert(`Applying for job ID: ${jobId}`);
-    // Implement actual apply logic here
   };
 
   if (jobs.length === 0) {
