@@ -90,7 +90,9 @@ export default function RootLayout({
                 {sidebarOpen ? <HiX /> : <HiMenu />}
               </button>
               <h1 className="text-lg font-medium">
-                {`${user?.first_name} ${user?.last_name}`} ({user?.email})
+                {user
+                  ? `${user.first_name} ${user.last_name} (${user.email})`
+                  : "Guest"}
               </h1>
               <div className="w-10 h-10 rounded-full bg-green-600"></div>
             </header>
