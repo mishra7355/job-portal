@@ -134,7 +134,7 @@ const JobListingPage = () => {
       </div>
     );
   }
-
+  console.log(jobs);
   return (
     <div className="min-h-screen p-6 bg-gradient-to-r from-purple-500 to-pink-500">
       <h2 className="text-xl font-bold text-gray-900 mb-4">

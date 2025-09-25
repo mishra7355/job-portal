@@ -27,7 +27,7 @@ export async function fetchJobs(
     },
   });
 
-  return response.data.data;
+  return response.data.data.jobs;
 }
 
 export async function fetchJobById(

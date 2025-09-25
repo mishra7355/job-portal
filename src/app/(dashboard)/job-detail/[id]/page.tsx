@@ -49,6 +49,7 @@ interface Job {
   };
   created_at: string;
 }
+
 export default function JobDetailPage({ params }: JobDetailPageProps) {
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
