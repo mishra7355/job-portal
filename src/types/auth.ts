@@ -45,6 +45,7 @@ export interface LoginResponse {
     job_title?: string;
     company?: string;
   };
+  organization_id: string;
 }
 
 export interface User {
