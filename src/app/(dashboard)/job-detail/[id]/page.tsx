@@ -6,10 +6,51 @@ import { fetchJobById } from "@/services/Job";
 interface JobDetailPageProps {
   params: Promise<{ id: string }>;
 }
+interface Job {
+  id: number;
+  job_title: string;
+  job_type: string;
+  work_mode: string;
+  location: string;
+  department: string;
+  salary: {
+    currency: string;
+    min: number;
+    max: number;
+    type: string; // e.g. "Monthly", "Yearly"
+  };
+  no_of_openings: number;
+  experience_level: string;
+  no_of_technical_rounds: number;
+  application_deadline: string; // or Date
+  status: string;
+  job_description: string;
+  required_skills: string[];
+  preferred_skills: string[];
+  interview_process: string;
+  hiring_manager: {
+    name: string;
+    email: string;
+  };
+  custom_form: {
+    name: string;
+    questions: {
+      id: number;
+      question_text: string;
+      is_required: boolean;
+    }[];
+  };
+  analytics: {
+    views: number;
+    applications: number;
+    [key: string]: number;
+  };
+  created_at: string; // or Date
+}
 
 export default function JobDetailPage({ params }: JobDetailPageProps) {
   const { id } = use(params);
-  const [job, setJob] = useState<any>(null);
+  const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -147,7 +188,7 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
         </p>
         <ul className="list-decimal list-inside text-gray-700">
           {job?.custom_form?.questions?.length ? (
-            job.custom_form.questions.map((q: any) => (
+            job.custom_form.questions.map((q) => (
               <li key={q.id}>
                 {q.question_text} {q.is_required ? "(Required)" : ""}
               </li>

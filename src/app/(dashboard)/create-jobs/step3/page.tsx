@@ -93,7 +93,7 @@ export default function Step3() {
       console.log("Job created successfully:", response);
 
       router.push("/create-jobs/finish");
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error creating job:", error?.message || error);
     } finally {
       setLoading(false);
