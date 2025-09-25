@@ -1,10 +1,10 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchJobById } from "@/services/Job";
 
 interface JobDetailPageProps {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 interface Job {
   id: number;
@@ -17,12 +17,12 @@ interface Job {
     currency: string;
     min: number;
     max: number;
-    type: string; // e.g. "Monthly", "Yearly"
+    type: string;
   };
   no_of_openings: number;
   experience_level: string;
   no_of_technical_rounds: number;
-  application_deadline: string; // or Date
+  application_deadline: string;
   status: string;
   job_description: string;
   required_skills: string[];
@@ -41,15 +41,16 @@ interface Job {
     }[];
   };
   analytics: {
-    views: number;
-    applications: number;
+    total_views: number;
+    total_applications: number;
+    applications_this_week: number;
     [key: string]: number;
   };
-  created_at: string; // or Date
+  created_at: string;
 }
 
 export default function JobDetailPage({ params }: JobDetailPageProps) {
-  const { id } = use(params);
+  const { id } = params;
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -72,7 +73,8 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
 
   if (loading) return <p className="p-6 text-center">Loading job details...</p>;
   if (!job) return <p className="p-6 text-center">Job not found</p>;
-  console.log(job);
+
+  // console.log(job);
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6">
       {/* Job Title */}
