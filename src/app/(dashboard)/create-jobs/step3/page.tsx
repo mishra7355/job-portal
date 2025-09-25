@@ -5,6 +5,36 @@ import { useState, useEffect } from "react";
 import { useJobForm } from "@/context/JobFormContext";
 import { createJob } from "@/services/Job";
 
+export interface JobPayload {
+  jobTitle: string;
+  jobType?: string; // e.g., "full-time", "part-time"
+  workMode?: string; // e.g., "remote", "onsite", "hybrid"
+  department: string;
+  location: string;
+  isUnpaidRole?: boolean;
+  salaryMin: number;
+  salaryMax: number;
+  salaryCurrency: string; // e.g., "INR", "USD"
+  salaryType?: "annual" | "monthly" | "hourly";
+  stipendAmount?: number | null;
+  noOfOpenings: number;
+  jobDescription: string;
+  requiredSkills?: string[];
+  preferredSkills?: string[];
+  experienceLevel?: string; // e.g., "2-4 years"
+  noOfTechnicalRounds?: number;
+  interviewProcess?: string;
+  applicationDeadline: string; // ISO string
+  publishStatus?: "public" | "private" | "invite";
+  hiringManagerId?: string;
+  customFormName?: string;
+  customFormQuestions?: {
+    id: number;
+    questionText: string;
+    isRequired: boolean;
+  }[];
+}
+
 export default function Step3() {
   const router = useRouter();
   const { formData, updateForm } = useJobForm();
@@ -51,26 +81,50 @@ export default function Step3() {
     publishStatus,
   };
 
-  const payload = {
-    job_title: payloadDummy.jobTitle,
-    job_type: payloadDummy?.jobType?.toLowerCase(),
-    work_mode: payloadDummy?.workMode?.toLowerCase(),
+  // const payload = {
+  //   job_title: payloadDummy.jobTitle,
+  //   job_type: payloadDummy?.jobType?.toLowerCase(),
+  //   work_mode: payloadDummy?.workMode?.toLowerCase(),
+  //   department: payloadDummy.department,
+  //   location: payloadDummy.location,
+  //   is_unpaid_role: payloadDummy.unpaid,
+  //   salary_min: Number(payloadDummy.salaryMin),
+  //   salary_max: Number(payloadDummy.salaryMax),
+  //   salary_currency: payloadDummy.currency,
+  //   salary_type: "annual",
+  //   stipend_amount: null,
+  //   no_of_openings: Number(payloadDummy.openings),
+  //   job_description: payloadDummy.jobDescription,
+  //   required_skills: payloadDummy.requiredSkills,
+  //   preferred_skills: payloadDummy.preferredSkills,
+  //   experience_level: payloadDummy.experience, // "2-4"
+  //   no_of_technical_rounds: Number(payloadDummy.technicalRounds),
+  //   interview_process: payloadDummy.interviewProcess,
+  //   application_deadline: payloadDummy.applicationDeadline,
+  // };
+
+  const payload: JobPayload = {
+    jobTitle: payloadDummy.jobTitle,
+    jobType: payloadDummy?.jobType?.toLowerCase(),
+    workMode: payloadDummy?.workMode?.toLowerCase(),
     department: payloadDummy.department,
     location: payloadDummy.location,
-    is_unpaid_role: payloadDummy.unpaid,
-    salary_min: Number(payloadDummy.salaryMin),
-    salary_max: Number(payloadDummy.salaryMax),
-    salary_currency: payloadDummy.currency,
-    salary_type: "annual",
-    stipend_amount: null,
-    no_of_openings: Number(payloadDummy.openings),
-    job_description: payloadDummy.jobDescription,
-    required_skills: payloadDummy.requiredSkills,
-    preferred_skills: payloadDummy.preferredSkills,
-    experience_level: payloadDummy.experience, // "2-4"
-    no_of_technical_rounds: Number(payloadDummy.technicalRounds),
-    interview_process: payloadDummy.interviewProcess,
-    application_deadline: payloadDummy.applicationDeadline,
+    isUnpaidRole: payloadDummy.unpaid,
+    salaryMin: Number(payloadDummy.salaryMin),
+    salaryMax: Number(payloadDummy.salaryMax),
+    salaryCurrency: payloadDummy.currency,
+    salaryType: "annual",
+    stipendAmount: null,
+    noOfOpenings: Number(payloadDummy.openings),
+    jobDescription: payloadDummy.jobDescription,
+    requiredSkills: payloadDummy.requiredSkills,
+    preferredSkills: payloadDummy.preferredSkills,
+    experienceLevel: payloadDummy.experience, // "2-4"
+    noOfTechnicalRounds: Number(payloadDummy.technicalRounds),
+    interviewProcess: payloadDummy.interviewProcess,
+    applicationDeadline: payloadDummy.applicationDeadline,
+    publishStatus: payloadDummy.publishStatus,
+    hiringManagerId: payloadDummy.hiringManagerId,
   };
 
   const handleFinish = async () => {
