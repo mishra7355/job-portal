@@ -112,7 +112,7 @@ export default function Step3() {
     isUnpaidRole: payloadDummy.unpaid,
     salaryMin: Number(payloadDummy.salaryMin),
     salaryMax: Number(payloadDummy.salaryMax),
-    salaryCurrency: payloadDummy.currency,
+    salaryCurrency: payloadDummy.currency || "INR", // default value
     salaryType: "annual",
     stipendAmount: null,
     noOfOpenings: Number(payloadDummy.openings),
