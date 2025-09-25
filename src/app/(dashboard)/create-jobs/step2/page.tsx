@@ -2,18 +2,27 @@
 import { useRouter } from "next/navigation";
 import Stepper from "@/components/Stepper";
 import { useState } from "react";
+import { useJobForm } from "@/context/JobFormContext";
 
 export default function Step2() {
   const router = useRouter();
-  const [requiredSkills, setRequiredSkills] = useState<string[]>([
-    "Java",
-    "CSS",
-    "CSS",
-  ]);
-  const [preferredSkills, setPreferredSkills] = useState<string[]>([
-    "Java",
-    "CSS",
-  ]);
+  const { formData, updateForm } = useJobForm();
+
+  // Prefill from context if available
+  const [requiredSkills, setRequiredSkills] = useState<string[]>(
+    formData.requiredSkills || []
+  );
+  const [preferredSkills, setPreferredSkills] = useState<string[]>(
+    formData.preferredSkills || []
+  );
+  const [experience, setExperience] = useState(formData.experience || "");
+  const [rounds, setRounds] = useState(formData.rounds || "");
+  const [jobDescription, setJobDescription] = useState(
+    formData.jobDescription || ""
+  );
+  const [interviewProcess, setInterviewProcess] = useState(
+    formData.interviewProcess || ""
+  );
 
   const handleAddSkill = (
     e: React.KeyboardEvent<HTMLInputElement>,
@@ -24,9 +33,9 @@ export default function Step2() {
       const input = e.currentTarget.value.trim();
       if (input) {
         if (type === "required") {
-          setRequiredSkills([...requiredSkills, input]);
+          setRequiredSkills((prev) => [...prev, input]);
         } else {
-          setPreferredSkills([...preferredSkills, input]);
+          setPreferredSkills((prev) => [...prev, input]);
         }
         e.currentTarget.value = "";
       }
@@ -41,6 +50,18 @@ export default function Step2() {
     }
   };
 
+  const handleNext = () => {
+    updateForm({
+      requiredSkills,
+      preferredSkills,
+      experience,
+      rounds,
+      jobDescription,
+      interviewProcess,
+    });
+    router.push("/create-jobs/step3");
+  };
+
   return (
     <div>
       <Stepper />
@@ -50,6 +71,7 @@ export default function Step2() {
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Required Skills */}
           <div>
             <label className="block text-sm font-medium mb-2">
               Required Skills
@@ -78,6 +100,7 @@ export default function Step2() {
             </div>
           </div>
 
+          {/* Preferred Skills */}
           <div>
             <label className="block text-sm font-medium mb-2">
               Preferred Skills
@@ -107,16 +130,21 @@ export default function Step2() {
           </div>
         </div>
 
+        {/* Experience + Rounds */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
             <label className="block text-sm font-medium mb-2">
               Experience Requirements
             </label>
-            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none">
-              <option>Select Experience Level</option>
-              <option>0-1 years</option>
-              <option>2-4 years</option>
-              <option>5+ years</option>
+            <select
+              value={experience}
+              onChange={(e) => setExperience(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none"
+            >
+              <option value="">Select Experience Level</option>
+              <option value="fresher">Fresher</option>
+              <option value="mid">Mid</option>
+              <option value="expert">Expert</option>
             </select>
           </div>
 
@@ -124,37 +152,49 @@ export default function Step2() {
             <label className="block text-sm font-medium mb-2">
               No. of Technical Rounds
             </label>
-            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none">
-              <option>Select no</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
+            <select
+              value={rounds}
+              onChange={(e) => setRounds(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none"
+            >
+              <option value="">Select no</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
             </select>
           </div>
         </div>
 
+        {/* Job Description */}
         <div className="mt-6">
           <label className="block text-sm font-medium mb-2">
             Job Description
           </label>
           <textarea
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
             placeholder="Job Description"
             className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none"
             rows={4}
           ></textarea>
         </div>
 
+        {/* Interview Process */}
         <div className="mt-6">
           <label className="block text-sm font-medium mb-2">
             Interview Process
           </label>
           <textarea
+            value={interviewProcess}
+            onChange={(e) => setInterviewProcess(e.target.value)}
             placeholder="Describe the interview process step by step"
             className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none"
             rows={3}
           ></textarea>
         </div>
       </div>
+
+      {/* Actions */}
       <div className="flex justify-between mt-6">
         <button
           onClick={() => router.push("/create-jobs/step1")}
@@ -168,7 +208,7 @@ export default function Step2() {
             Save as Draft
           </button>
           <button
-            onClick={() => router.push("/create-jobs/step3")}
+            onClick={handleNext}
             className="px-6 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700"
           >
             Continue →

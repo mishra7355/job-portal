@@ -1,18 +1,109 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Stepper from "@/components/Stepper";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useJobForm } from "@/context/JobFormContext";
+import { createJob } from "@/services/Job";
+
 export default function Step3() {
   const router = useRouter();
+  const { formData, updateForm } = useJobForm();
+
   const [applicationDeadline, setApplicationDeadline] = useState("");
   const [hiringManagerId, setHiringManagerId] = useState("");
   const [experience, setExperience] = useState("");
   const [technicalRounds, setTechnicalRounds] = useState("");
-  const [publishStatus, setPublishStatus] = useState("public");
+  const [publishStatus, setPublishStatus] = useState<
+    "public" | "private" | "invite"
+  >("public");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (formData) {
+      setApplicationDeadline(formData.applicationDeadline || "");
+      setHiringManagerId(formData.hiringManagerId || "");
+      setExperience(formData.experience || "");
+      setTechnicalRounds(formData.technicalRounds || "");
+      setPublishStatus(
+        (formData.publishStatus as "public" | "private" | "invite") || "public"
+      );
+    }
+  }, [formData]);
+
+  const saveForm = () => {
+    updateForm({
+      applicationDeadline,
+      hiringManagerId,
+      experience,
+      technicalRounds,
+      publishStatus,
+    });
+  };
+
+  const payloadDummy = {
+    ...formData,
+    applicationDeadline,
+    hiringManagerId,
+    experience,
+    technicalRounds,
+    publishStatus,
+  };
+
+  const payload = {
+    job_title: payloadDummy.jobTitle,
+    job_type: payloadDummy?.jobType?.toLowerCase(),
+    work_mode: payloadDummy?.workMode?.toLowerCase(),
+    department: payloadDummy.department,
+    location: payloadDummy.location,
+    is_unpaid_role: payloadDummy.unpaid,
+    salary_min: Number(payloadDummy.salaryMin),
+    salary_max: Number(payloadDummy.salaryMax),
+    salary_currency: payloadDummy.currency,
+    salary_type: "annual",
+    stipend_amount: null,
+    no_of_openings: Number(payloadDummy.openings),
+    job_description: payloadDummy.jobDescription,
+    required_skills: payloadDummy.requiredSkills,
+    preferred_skills: payloadDummy.preferredSkills,
+    experience_level: payloadDummy.experience, // "2-4"
+    no_of_technical_rounds: Number(payloadDummy.technicalRounds),
+    interview_process: payloadDummy.interviewProcess,
+    application_deadline: payloadDummy.applicationDeadline,
+  };
+
+  const handleFinish = async () => {
+    saveForm();
+    setLoading(true);
+    setError("");
+
+    const token = localStorage.getItem("access_token");
+    const organizationId = localStorage.getItem("organizationId");
+
+    try {
+      if (!token) {
+        console.error("No token found. Please login first.");
+        return;
+      }
+
+      setLoading(true);
+
+      const response = await createJob(payload, token, organizationId);
+      console.log("Job created successfully:", response);
+
+      router.push("/create-jobs/finish");
+    } catch (error: any) {
+      console.error("Error creating job:", error?.message || error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
       <Stepper />
+
       <div className="bg-white shadow rounded-xl p-6">
         <h2 className="text-lg font-semibold text-purple-700 mb-6">
           Publishing
@@ -45,97 +136,64 @@ export default function Step3() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              Experience Requirements
-            </label>
-            <select
-              value={experience}
-              onChange={(e) => setExperience(e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none"
-            >
-              <option value="">Select Experience Level</option>
-              <option value="0-1">0-1 years</option>
-              <option value="2-4">2-4 years</option>
-              <option value="5+">5+ years</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2">
-              No. of Technical Rounds
-            </label>
-            <select
-              value={technicalRounds}
-              onChange={(e) => setTechnicalRounds(e.target.value)}
-              className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 outline-none"
-            >
-              <option value="">Select no</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-          </div>
-        </div>
-
+        {/* Publish Options */}
         <div className="mt-6 mb-6">
           <label className="block text-sm font-medium mb-3">
             Ready to Publish?
           </label>
           <div className="flex flex-wrap gap-4">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                value="public"
-                checked={publishStatus === "public"}
-                onChange={(e) => setPublishStatus(e.target.value)}
-                className="text-purple-600 focus:ring-purple-500"
-              />
-              <span>Public</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                value="private"
-                checked={publishStatus === "private"}
-                onChange={(e) => setPublishStatus(e.target.value)}
-                className="text-purple-600 focus:ring-purple-500"
-              />
-              <span>Private</span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                value="invite"
-                checked={publishStatus === "invite"}
-                onChange={(e) => setPublishStatus(e.target.value)}
-                className="text-purple-600 focus:ring-purple-500"
-              />
-              <span>Invite Only</span>
-            </label>
+            {["public", "private", "invite"].map((status) => (
+              <label
+                key={status}
+                className="flex items-center gap-2 cursor-pointer"
+              >
+                <input
+                  type="radio"
+                  value={status}
+                  checked={publishStatus === status}
+                  onChange={(e) =>
+                    setPublishStatus(
+                      e.target.value as "public" | "private" | "invite"
+                    )
+                  }
+                  className="text-purple-600 focus:ring-purple-500"
+                />
+                <span>{status.charAt(0).toUpperCase() + status.slice(1)}</span>
+              </label>
+            ))}
           </div>
         </div>
+
+        {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
       </div>
+
+      {/* Navigation */}
       <div className="flex justify-between mt-6" style={{ marginTop: "80px" }}>
         <button
-          onClick={() => router.push("/create-jobs/step1")}
+          onClick={() => {
+            saveForm();
+            router.push("/create-jobs/step2");
+          }}
           className="px-4 py-2 rounded-lg border border-gray-300 bg-white hover:bg-gray-100"
+          disabled={loading}
         >
           ← Previous
         </button>
 
         <div className="flex gap-2">
-          <button className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100">
+          <button
+            onClick={saveForm}
+            className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100"
+            disabled={loading}
+          >
             Save as Draft
           </button>
           <button
-            onClick={() => router.push("/create-jobs/finish")}
-            className="px-6 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700"
+            onClick={handleFinish}
+            disabled={loading}
+            className="px-6 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-50"
           >
-            Continue →
+            {loading ? "Submitting..." : "Finish"}
           </button>
         </div>
       </div>

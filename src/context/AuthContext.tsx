@@ -36,11 +36,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     const response = await loginUser({ email, password });
-    const { user, access, refresh } = response;
+    const { user, access, refresh, organization_id } = response;
 
     localStorage.setItem("access_token", access);
     localStorage.setItem("refresh_token", refresh);
     localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("organizationId", organization_id);
 
     setAccessToken(access);
     setUser(user);

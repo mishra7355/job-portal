@@ -15,11 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-gray-50">
-        {" "}
-        <AuthProvider>{children}</AuthProvider>
+      <body>
+        <AuthProvider>
+          {children}
+          <ToastProvider />
+        </AuthProvider>
       </body>
-      <ToastProvider />
     </html>
   );
 }
