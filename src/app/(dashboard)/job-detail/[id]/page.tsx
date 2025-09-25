@@ -281,15 +281,16 @@ interface Job {
   created_at: string;
 }
 
-export default async function JobDetailPage({ params }: JobDetailPageProps) {
-  const { id } = await params;
-
+export default function JobDetailPage({ params }: JobDetailPageProps) {
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getJob = async () => {
       try {
+        // Resolve the params promise
+        const { id } = await params;
+
         const token = localStorage.getItem("access_token");
         const organizationId = localStorage.getItem("organizationId");
         const jobData = await fetchJobById(id, token, organizationId);
@@ -302,7 +303,7 @@ export default async function JobDetailPage({ params }: JobDetailPageProps) {
     };
 
     getJob();
-  }, [id]);
+  }, [params]);
 
   if (loading) return <p className="p-6 text-center">Loading job details...</p>;
   if (!job) return <p className="p-6 text-center">Job not found</p>;
