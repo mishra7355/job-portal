@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { fetchJobById } from "@/services/Job";
 
 interface JobDetailPageProps {
-  params: { id: string }; // In Next.js 15, params are already resolved objects
+  params: Promise<{ id: string }>; // Keep as Promise for client components
 }
 
 interface Job {
@@ -49,7 +49,6 @@ interface Job {
   };
   created_at: string;
 }
-
 export default function JobDetailPage({ params }: JobDetailPageProps) {
   const [job, setJob] = useState<Job | null>(null);
   const [loading, setLoading] = useState(true);
@@ -60,9 +59,12 @@ export default function JobDetailPage({ params }: JobDetailPageProps) {
       setLoading(true);
       setError(null);
       try {
-        const { id } = params;
+        // Await params here
+        const { id } = await params;
+
         const token = localStorage.getItem("access_token");
         const organizationId = localStorage.getItem("organizationId");
+
         const jobData = await fetchJobById(id, token, organizationId);
 
         if (!jobData?.data) {
