@@ -1,25 +1,23 @@
 export interface JobPayload {
-  jobTitle: string;
-  jobType?: string;
-  workMode?: string;
+  job_title: string;
+  job_type?: string;
+  work_mode?: string;
   department: string;
-  location?: string;
-  unpaid?: boolean;
-  salaryMin: number;
-  salaryMax: number;
-  applicationDeadline: string;
-  interviewProcess: string;
-  jobDescription: string;
-  openings: number;
-  preferredSkills: string[];
-  requiredSkills: string[];
-  experience: string;
-  experienceRequirements: string;
-  rounds: number;
-  technicalRounds: number;
-  publishStatus: "public" | "private" | "invite";
-  currency: string;
-  hiringManagerId: string;
+  location: string;
+  is_unpaid_role?: boolean;
+  salary_min: number;
+  salary_max: number;
+  salary_currency: string;
+  salary_type: string;
+  stipend_amount?: number | null;
+  no_of_openings: number;
+  job_description?: string;
+  required_skills?: string[];
+  preferred_skills?: string[];
+  experience_level?: string;
+  no_of_technical_rounds?: number;
+  interview_process?: string;
+  application_deadline: string;
 }
 
 export interface JobResponse {
