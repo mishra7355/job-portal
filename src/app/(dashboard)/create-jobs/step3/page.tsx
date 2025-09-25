@@ -89,6 +89,12 @@ export default function Step3() {
 
       setLoading(true);
 
+      if (!token || !organizationId) {
+        setError("Token or Organization ID missing. Please login first.");
+        setLoading(false);
+        return; // Stop execution
+      }
+
       const response = await createJob(payload, token, organizationId);
       console.log("Job created successfully:", response);
 
